@@ -1,0 +1,607 @@
+
+
+GenAI Kaggle: 
+
+
+
+
+How to evaluate GenAI: 
+
+
+
+
+- "Flask attention" - output is same 
+- "Prefix caching" - for convo apps 
+- "Speculative decoding" - smaller drafter model to predict tokens -  if right skip calculations.
+	Drafter modeling in line with the main model. 
+
+
+
+## Pick single best word: 
+- Top k to 1, or 
+- Top P to 0 {a probability} 
+
+- ** A good start point => Temp: 0.2, Top p: 0.95, top k: 30. 
+	For more creative output => Temp: 0.9, Top p: 0.99, Top k: 40. 
+	More factual accuracy => Temp: 0.1, Top p: 0.9, Top k: 20.  
+	Single correct answer => Temp: 0   
+
+- "Repetition loop bug" -  stuck repeating same word or phrase. Keeps repeating the same. 
+
+
+## PROMPT:
+	- System, 
+	- Contextual( - specific background info relevant to the task), 
+	- Role (- influence style and tone of responses).  
+	- * Step back prompting: ask broad qn before specific qn. 
+	- CoT prompting: 
+		- Self consistency: 
+	- ToT: multi reasoning hats 
+	- ReAct: 
+	- automatic prompt engg: 
+	- multi modal prompting 
+
+Prompting to error traceback 
+
+
+Best practices 
+- Avoid jargon 
+- Strong action verbs 
+- Specific desired output 
+- Instructions over constraints 
+- experiment output formats 
+- 
+ 
+
+
+ 
+- Joint embeddings -  multimodal data 
+
+
+- Precise at k and Recall at k {Top K}
+
+- Normalized discounted cumulative gain (NDCG)
+
+- 
+
+## Types of (rag) Embeddings: 
+	fasttext, 
+	GloVe,
+	SWIVEL, and 
+	Word2Vec.
+	Doc2vec - adds a paragraph vector, to rep the whole doc. Instead of just a "bag of words" with no relation. 
+	BERT - adds context. - sentence embeddings (not just words) 
+	Multimodal embeddings 
+	Graph embeddings. - 'encoding social fabric'. Eg: deep walk. 
+
+LSA and LDA 
+
+
+## vector search:  
+	ANN to speed things up. - LSA (locality sensitive hashing) and tree based methods (KD trees and ball trees) - .  
+		combine the 2 - FAISS (Facebook AI similarity search) - using - hierarchical navigable small world (HNSW). 
+		scalable approximate nearest neighbor (ScaNN) 
+		
+## vector DB: purpose build for the world of embeddings. 
+
+## hybrid search. 
+
+
+
+
+------------------------
+
+#### AI agents 
+
+
+
+## Vid 1: 
+----------
+
+LLM in agent -  job is to manage context. Thinks, while tolls connect to the external world. 
+
+
+Orchestration layer - 'the conductor' - keep track of memory and state and execute the reasoning strategy.  
+	Its Job: define agent's Persona and its operating rules. Via system prompt or a constitution. And managing memory (short term and long term). 
+ 
+  
+
+
+
+
+# Taxonomy: different levels of agent capability. 
+	Level 0: The Core Reasoning System - LLM
+	Level 1: The Connected Problem-Solver 
+	Level 2: The Strategic Problem-Solver - 'context engineering'.  
+	Level 3: The Collaborative Multi-Agent System 
+	Level 4: The Self-Evolving System - identify gaps of its own capabilities. And take steps to fix it.  
+
+Model routing - send different tasks to different models. 
+	smart resource allocation - optimize performance and cost. 
+	
+
+"NL to SQL tools". 
+
+Function calling - 
+
+
+AgentOps - testing and debugging. 
+
+
+Observability tools, and open Telemetry traces. - detailed step by step logs of step inside. 
+ 
+Security and scaling.  - AI guard models. Hard coded parameters to control. identity and constrained policies. 
+
+Agent sprawl - need agent governance. 
+
+
+->  simulation and agent gym - next frontier -  a sandbox - stresses and how they interact. . eg:  google co-scientist. 
+AlphaEvolve -  
+
+
+
+-------------------------    
+
+
+Video/WP -2: 
+------------
+
+
+
+
+- Tool: is just a function or a program, for LLM to use. 3 main types.  
+
+	Function tools: explicitly defined by devs - to do something.  
+		uses 'detail doc strings' - defines the contract, the inputs and outputs b/w model and function.   
+	built-in tools: by model service provider. Like google search grounding for Gemini. 
+	Agent tools: invoking another agent, as a tool. Not handing of the convo. Uses the result received. 'delegation'.  
+ 	MCP tools: 
+	OpenAPI tools: 
+Grouping tools by what they do. 
+	- info retrieval, action execution - real world, system API integration, human-in-the-loop tools.  
+
+
+
+Tasks types - fetch something new - now something, and do something 
+
+	
+# Best practices: 
+ - Documentation. Name and description is like instruction manual for the LLM. 
+ 
+ - Describe the action (and not the implementation). "How" will confuse the model. 
+ - Publish tasks, not raw api calls. Clear high-level task 
+ - Design for concise output. Or reference to source. Like artifact service in ADK. 
+ - Error: uze schema validation. Erros msg to be descriptive and instructive. 
+
+
+# MCP:  
+
+Host - Manages the user experience. User interacts with it. Orchestrates thinking process, decide when tools are needed. 
+	enforcer of guardrails. 
+MCP client - embedded in the host. Like a Dedicated communications module. Maintain connection. Manage session lifecycle. Send commands to 'execute' tools.  Uses json rpm 2.0 
+
+Server - program providing tools and capabilities. Advertise.  Send results back. 
+
+
+* Tools are main value add for MCP. 
+
+Tool Def within MCP: std JSON schema, input schema. Optional output schema. Schema provides the contract. 
+Results can be 1) structured or 2) unstructured (raw text, references, etc)
+
+
+# Error: 
+Std json roc protocol errors. Protocol level failure. 
+Execution level fails. Results + error flag is sent back. 
+
+
+Wins: fast and reusable. 
+Public MCP registers. 
+
+
+It enables dynamic capabilities for agents. 
+And architectural flexibility. Supports much cleaner design. 
+
+
+## RAG for tools -  tool retrieval. With Semantic tools search.  - avoid context blowup. - filter before you load. 
+
+## security: 
+	risk: confused deputy problem. - prompt injection leading to privilege escalation via the tool server.  
+	
+Wrap map in layers of centralized governance and security. 
+
+
+Audit trails. And how they need to evolve. 
+
+
+
+
+
+--------------------------------
+
+
+
+## Vid - 3 / 'Context Engineering': Sessions & Memory: 
+------------------------------
+
+
+
+1)Context engineering - foundation, dynamic management,  is the main umbrella, 
+
+2)Sessions (short term memory management) - one whole convo container, workbench, has Events, 
+3)Memory (long term memory) - capture process and consolidate knowledge across sessions. 
+ 
+
+* Context rot: context window is too full and noisy. 
+	Context egg. fights this with dynamic history mutation     
+	Context management cycle: figure 1. 
+  
+
+manage sessions: 
+	ADK offers a 'Session Manager' and 'Runner'. 
+
+
+
+
+Multi agent systems (MAS) 
+	have: 1) Shared unified history. Can get cluttered.
+	or individual  
+	PII redaction before storage. For compliance. Using things like modelarmour. Before persistent session logs, 
+	data hygiene.TTL.  Deterministic even order. 
+ 
+Context window size issue, api cost, latency, quality loss: 
+	solution: sliding window, token based truncation, more complex -  recursive summarization - async background processing for sophisticated compaction.    
+
+
+Memory's filling cabinet - "rjack" 
+	static shared factual information. 
+
+Memory: personal assistant, dynamic user stuff, structured.
+	Declarative memory. - reference car or summary.  
+	Procedural memory - knowing how, remembers the process. 
+	Vector DB - for semantic search (on unstructured) and knowledge graph (relational, connecting memories). 
+	app level memory, sanitized. User level scope.  
+	multimodal - memory is stored as text mostly - extracted from picture, audio, etc. 
+
+Memory generation process - an LLM driven ETL pipeline. Should be async - run in background, as computational heavy. 
+	Pull specific signal from conversational noise. Extract potentially useful nuggets. 
+	consolidation: intelligence - self-editing, handling conflicts. LLM decides to create, update or delete memories. Memory relevance decay, forgetting management. 
+	judge trustworthiness: relies on provenance.     
+	Should be async - run in background, as computational heavy. A critical design pattern. -> memory as a tool.
+	
+Retrieval: 
+	simple vector relevance isn't enough.  
+	need to blend scores, across factors: 
+		Relevance - the similarity score, 
+		Recency - how recently used or created, 
+		Importance - how critical did the system deem this.  
+		
+	can be 'proactive' (can add latency), or 'reactive' (memory as a tool approach). 
+	 
+Inference: 
+	where to put the memory in prompt. 
+	Placement signal authority.  
+	memory that carry a lot of weight - in system instructions. Or stable facts. 
+	Injecting them into convo history - usually noisier. 
+	
+Testing: 
+	for generation - precision, recall. 
+	for retrieval - recall at K 
+	Latency - under 200ms
+ 	end to end pass success, achieve the goal - LLM judge. 
+
+
+	
+
+	
+	
+------------------------------
+
+
+
+## Vid - 4 / Agent Quality:  
+------------------------   
+
+
+Design for quality.  
+=> Evaluation must be architectural pillar. 
+Design for testability. 
+
+
+3 core ideas
+	- "Trajectory" is the truth": the path agent took. 
+ 	- "Observability" (Ability to see inside agent) is the foundation. 
+		Log, Trace, Measure. - for debugging, and eval.
+	- "Evaluation" as a confutation loop - agent quality 'flywheel'. 
+
+-> Agent fail insidiously - subtle, stealthy, or cunning way, 
+			gradually causing harm or having a negative effect that isn't immediately obvious
+
+
+Failure modes: 
+	Algorithmic bias, 
+	Factual hallucinations, 
+	Performance and concept drift. 
+	Emergent unintended behavior. 
+	
+Validation. - 4 pillars: 
+	Effectiveness, Efficiency (quickly/cheaply), Robustness, Safety and alignment. 
+
+
+Outside-in hierarchy: 
+	Start from results, (like black box), purely based on outcome. 
+	Doesn't tell you 'why' it failed. For that.... 
+Inside-out:- 
+	Open the box and do trajectory evaluation. Find 'Break points' in the trajectory. 
+	
+
+- Practical tip for Kaggle: successfully trajectory saved as an evil case. - ground truth. < .test.json>
+ 
+
+# EVALUATION: 
+-------------
+Who does the Eval: 
+	- 'Rouge' or 'Bert' score - cheap, Quick - match surface level similarity, b/w output and reference answer. 
+	Best use: in trend indicator in CI-CD pipeline. 
+	* Don't understand meaning. 
+
+LLM as a judge: 
+  Imp: Pairwise evaluation - Give rubric and force a choice to pick winner. 
+	Handles Subjectivity & Ambiguity, Reveals Biases & Weaknesses. 
+
+Agent as a judge: 
+	Judge the quality of the reasoning. 
+
+** 'Humans are essential': The human - serve as the "arbiter".
+
+
+- HITL (human in the loop): 
+	- Domain expertise, nuance, crucial for creating 'golden set'(high quality ground truth examples). 
+	- Best practice: good reviewer UI. Convo story, and internal reasoning trace side by side eg. 
+	- can be safety mechanism - for high stakes actions - agent needs human approval before doing something critical. 
+	- 'Interruption workflow'. "Responsible AI - RAI". 
+	- Architect safety features - as explicit components - guardrails as (safety) plugins 
+		- methods hook in to Agent lifecycle, right into execution flow. 
+
+Ability to see inside agent - OBSERVABILITY. 3 pillars: 
+	Logging - Atomic timestamp entires. Structured. Json. COT. 
+	Tracing - Open Telemetry. -  tracing logs - Why something happened. 
+	Metrics - Overall health report. Quantitative, aggregated numbers, from logs and traces. 
+	Split for different teams . 
+		Ops/SRE (Site Reliability Engineering) teams - system metrics - p50, P99, latency, median and worst case response times, error rates, API costs per task, the vital signs.     
+		DS/PM  - quality metrics - correct score, trajectory adherence, helpfulness ratings, judgement calls, 
+
+  * Dynamic sampling - to save cost and not let the above pile up. 
+		Always - trace for errors. 
+		=>. trace 100% of failed requests and like 10% or os of successful ones. 
+
+* Balance Insight with performance.
+
+
+
+	 
+------------------------------
+
+
+
+## Vid - 5/ Prototype to Production:  deploying, scaling, Productionizing and A2A   - AgentOps
+
+----------------------------------------------------------------------------------
+
+" Building an agent is easy. Trusting it is hard. "  -- last mile production gap. 
+Go to a 'Robust production solution.'  
+   
+* This paper is essentially an operational manual. 
+
+** => 80% of the effort is spent not on the agent's core intelligence, 
+	but on the Infrastructure, Security, and (constant) Validation needed to make it reliable and safe.
+
+- scalable state management 
+	memory management - a serious system design challenge. 
+
+
+Key pillars: 3 foundational things - 
+	automated evaluation. 
+	automated deployment. 
+	comprehensive observability. 
+	=>> Automation is key. 
+	-- But start with people and process first. 
+** -> most things can be attributed to process failure at their core. => Its about GOVERNANCE. 
+
+STEP 0 - right team structure and responsibilities. 
+
+AI engineers - They build the backend systems.They handle integrating the guard rails, setting up RAG systems if needed, 
+	connecting the tools, and crucially building and maintaining that automated evaluation system 
+	They make the 'prompt engineers' vision work reliably at scale.
+	
+
+Pre-production engine. 
+
+	Evaluation gated deployment. 
+	Did it hallucinate? Sure, that's bad. 
+	But you also have to ask, did it choose the right tool? 
+	Did it use the tool correctly? 
+	Did it follow the reasoning path it was supposed to?
+	-> You're evaluating the whole process, the behavioral quality.
+
+# Quality checks: 
+	manual - pre PR eval - Link the report (from eval suite run) in pull request. 
+	More robust option - automated inpipeline gate. As part of CI/CD. - engineering control.   
+	
+	Goal: to shift left catch errors as early and cheaply as possible. 
+	It has three main phases: 
+		Phase 1: premerge integration. Your basic continuous integration CI. Fast. Unit tests. quick scans. 
+			This runs before code gets merged into the main branch.  
+		Phase 2: postmerge validation and staging. This is the continuous deployment CD part. 
+			The agent gets deployed to a staging environment that mirrors production as closely as possible.
+			Load tests. Integration tests. Dog fooding - internal user testing.  
+		Phase 3: The gated deployment to production. 
+			After passing staging, you promote the exact same build artifact that was validated, not a new build.
+			usually needs a final human thumbs up. Maybe the product owner signs off and 
+			all this relies on things like infrastructure as code Terraform for instance to keep those environments consistent.
+			Needs automated testing frameworks (like pytest) that are adapted for Agent specific things. 
+				Like convo flow, reasoning trace, validate memory content. 
+				
+Safe rollout strategies: options 
+	Canary release. Push new version to 1% of users. 
+	Blue Green deployments. -> 0 down time and instant roll back. 
+	A/B testing. Compare 2 version on business metrics. 
+	meticulous versioning. Everything should be.  
+	
+
+Prompt injection. 
+Data leakage. 
+Memory poisoning. - influence future behavior. 
+
+How to tackle: secure agents approach based on SAIF
+	Layer 1: Policy definition -  This is about setting the agents fundamental rules through its system instructions. 
+			Think of it as its constitution. The core guidelines. 
+	Layer 2: Guardrails and filtering - Implement hard stops and checks. 
+			It includes input filtering using tools like say the perspective API to block harmful or malicious user inputs before the agent even sees them. And output filtering too. Could also include HITL escalation. 
+	Layer 3: Continuous assurance. Security isn't a one-time setup. You need ongoing rigorous evaluation focused on safety, dedicated, responsible AI testing and proactive red teaming.
+		RED TEAMING - deliberately trying to break your own agents safety features. Find vulnerabilities before the bad guys do.
+		It makes the whole system much strong
+
+Operations - continuous operational loop. 
+	step 1: Observe. Building the agents sensory system, as the paper puts it.
+		You need deep insight - which relies on 3 pillars of "Observability" - 
+			Logs, Traces (provide the narrative), and Metrics (aggregated report - high level view). 
+			Tracking things like latency, error rates, tool success rates, cost per interaction, user satisfaction scores 
+			gives you the overall health picture. 
+			helps apply 'Operational Control'. 
+
+
+## Keep the system 'healthy' and 'scalable': 
+	key architectural principle - decoupling the agents logic from its state. 
+	Store the memory and session data externally, maybe in alloydb or cloud SQL.
+	This lets you scale the agent logic horizontally. Just add more instances without state becoming a bottleneck.
+
+# - Trade-offs to manage: 
+	Speed vs Reliability vs Cost.   
+ 
+	For speed - use caching or parallelized tasks. 
+	For reliability - you need things like automatic retries with exponential backoff for tool calls,
+		but that requires the tools to be Idempotent (meaning you can safely retry them).   
+			Like - Calling a getweather tool twice was fine. Calling a charge credit card tool twice is not fine.  
+
+		Tools involved in state changes need to be designed carefully so retries don't cause problems. 
+		For cost you optimize prompts, maybe batch requests. It's a constant balancing act.
+
+
+- Security response playbook: 
+Generally, 	
+	First containment immediately. Stop the bleeding. 
+		Use a 'circuit breaker' or a feature flag to disable the compromised tool or feature instantly.
+	Then triage.(Investigate) Route suspicious request or affected users to a human review due - HITL, 
+	to understand the scope and nature of the attack.
+	
+	Finally, resolve. Develop a patch. Maybe update a prompt. Strengthen an input filter. Fix a code bug. 
+		Test it and deploy it immediately using that automated CI/CD pipeline you already built. 
+
+* Rapid response is key. 
+
+	Evolve:  	Proactively making the Agent better based on real world data. 
+		 the workflow is - to see a problem in production logs or metrics. Refine the agent.  
+		failure case into a new test case for golden set. 
+
+## Interoperability - 
+	Protocols for Agent interaction. 
+	2 main ones - MCP, and A2A protocol.  	
+	
+MCP - MCP is primarily for agents interacting with tools or static resources. It's generally "stateless". 
+	Think of the agent saying fetch me the current weather for London. It's a specific structured request to a known capability.
+	Like using an API.
+
+A2A - is for agents collaborating with other intelligent agents. It's "stateful" and 'goal oriented'. 
+	It's less about do the specific action and more about achieve this complex objective 
+	like telling a specialized analysis agent analyze recent customer turn data and suggest three retention strategies. 
+
+ =>> So, MCP for tools, A2A for partners. 
+         A2A for the high level goal, MCP for the low-level tool interactions.
+
+ - Agent cards: Std. json files to make agents and their abilities 'discoverable'. 
+
+ 	A2A needs more infra - like robust distributed tracing. Managing state and transactional integrity across agents.   
+
+* Central Registry (architecture) - for higher scale and complexity. 
+	So you might have a tool registry using MCP standards to catalog and govern all available tools and 
+	you might have an agent registry using A2A agent cards to catalog all the available intelligent agents.
+	
+	=> The main benefit: is just making things findable and and maybe enforcing some governance. 
+	   It aids discovery, prevents redundant development, and allows for centralized oversight when your ecosystem gets large and complex.
+
+Organizational transformation. 
+
+* The immediate drivers are often stability and security, the ultimate prize (the paper points out) is "Velocity". 
+ 	-> Deploy meaningful improvements and fixes in hours or days, not weeks or months. 
+	   Your agents continuously evolve and get better. 
+
+
+			 
+
+
+
+
+
+-------------------------------------------------------- 
+--------------------------------------------------------  
+Precise: 
+
+170 - Fda dol, cms, noaa, 
+
+Health it , fed civ. 
+
+
+   
+
+------------------------
+
+
+Deloitte - SFL scientific
+
+
+
+-------------------------------
+AWS 
+Delivery consultant: 
+sys design + ds Algo, + mlops. 
+
+
+-------------------------------    
+
+
+---------------------------------------------------------------     
+
+
+
+Nonobanana prompt: 
+
+Screenshots
+
+ 
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
