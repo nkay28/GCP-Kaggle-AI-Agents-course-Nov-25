@@ -1,0 +1,74 @@
+
+
+
+## Imp links: To read: 
+--------------
+
+
+Third-Party Tools - Agent Development Kit
+https://google.github.io/adk-docs/tools/third-party/
+
+Example Servers - Model Context Protocol
+https://modelcontextprotocol.io/examples
+
+AlphaEvolve: A Gemini-powered coding agent for designing advanced algorithms - Google DeepMind
+https://deepmind.google/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/
+
+
+
+
+
+## ADK Docs pages: 
+-------------------
+
+
+Criteria - Agent Development Kit
+https://google.github.io/adk-docs/evaluate/criteria/
+
+
+User Simulation - Agent Development Kit
+https://google.github.io/adk-docs/evaluate/user-sim/
+
+Why Evaluate Agents - Agent Development Kit
+https://google.github.io/adk-docs/evaluate/#2-pytest-run-tests-programmatically
+
+Why Evaluate Agents - Agent Development Kit
+https://google.github.io/adk-docs/evaluate/#3-adk-eval-run-evaluations-via-the-cli
+
+
+
+Generate memories  |  Vertex AI Agent Builder  |  Google Cloud Documentation
+https://docs.cloud.google.com/agent-builder/agent-engine/memory-bank/generate-memories
+
+
+Agent Development Kit
+https://google.github.io/adk-docs/callbacks/
+
+
+Context compression - Agent Development Kit
+https://google.github.io/adk-docs/context/compaction/
+
+Context caching - Agent Development Kit
+https://google.github.io/adk-docs/context/caching/
+
+
+Loop agents - Agent Development Kit
+https://google.github.io/adk-docs/agents/workflow-agents/loop-agents/
+
+Sequential agents - Agent Development Kit
+https://google.github.io/adk-docs/agents/workflow-agents/sequential-agents/
+
+Parallel agents - Agent Development Kit
+https://google.github.io/adk-docs/agents/workflow-agents/parallel-agents/
+
+LLM agents - Agent Development Kit
+https://google.github.io/adk-docs/agents/llm-agents/
+
+Agent Runtime - Agent Development Kit
+https://google.github.io/adk-docs/runtime/
+
+Agents - Agent Development Kit
+https://google.github.io/adk-docs/agents/
+
+
+
